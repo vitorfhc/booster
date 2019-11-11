@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Collaborator = require('../models/Collaborator')
+const Collaborator = require('../models/collaborator')
 
 const router = express.Router();
 
@@ -21,6 +21,8 @@ router.get('', async (req, res) => {
 router.post('', async (req, res) => {
   try {
     const collab = await Collaborator.create(req.body);
+    collab.metadata = {}
+
     return res.send({ collab })
   } catch (err) {
     return res.status(400).send({

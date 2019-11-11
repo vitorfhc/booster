@@ -1,6 +1,7 @@
 const mongoose = require('../database')
 
-const SectorSchema = require('./Sector')
+const SectorSchema = require('./sector')
+const MetaDataSchema = require('./metadata')
 
 const CollaboratorSchema = new mongoose.Schema({
   name: {
@@ -18,8 +19,10 @@ const CollaboratorSchema = new mongoose.Schema({
   salary: {
     type: Number,
     required: true,
+    min: 0,
   },
   sectors: [SectorSchema],
+  metadata: MetaDataSchema,
 });
 
 const Collaborator = mongoose.model('Collaborator', CollaboratorSchema);
