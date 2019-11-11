@@ -1,0 +1,55 @@
+version: 2.1
+
+executors:
+  docker-executor:
+    environment:
+      IMAGE_NAME: vitorfhc/booster
+    docker:
+      - image: circleci/buildpack-deps:stretch
+
+jobs:
+  build:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t $IMAGE_NAME Dockerfile.prod
+      - run:
+          name: Archive Docker Image
+          command: |
+            docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+
+  build:
+    working_directory: ~/booster
+    docker:
+      - image: circleci/node:13
+      - image: mongo:4.2.1
+    steps:
+      - checkout
+      - restore-cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Yarn Install
+          command: yarn install
+      - save-cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Tests
+          command: yarn test
+      - run:
+          name: Lint
+          command: yarn lint
+
+workflows:
+  cicd:
+    jobs:
+      - build
