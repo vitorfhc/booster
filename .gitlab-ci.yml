@@ -1,7 +1,7 @@
 image: docker:stable
 
 variables:
-  IMAGE_NAME: $CI_REGISTRY/booster
+  IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_PATH/booster
 
 services:
     - docker:dind
@@ -13,12 +13,13 @@ build:
   only:
     - master
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+    - echo $IMAGE_NAME
   after_script:
-    - docker logout $CI_REGISTRY
+    - docker logout registry.gitlab.com
   image: docker:stable
   stage: build
   script:
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA -t $IMAGE_NAME:latest Dockerfile.prod
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA -t $IMAGE_NAME:latest -f Dockerfile.prod .
     - docker push $IMAGE_NAME:$CI_COMMIT_SHA
     - docker push $IMAGE_NAME:latest
