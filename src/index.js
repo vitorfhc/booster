@@ -10,5 +10,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 require('./controllers/collaboratorController')(app);
 
-console.log('Listening...');
-app.listen(3000);
+let port = 3000;
+app.listen(port, () => console.log(`Listening on port ${port}`));

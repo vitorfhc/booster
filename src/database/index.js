@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://db/booster',
+let url = 'mongodb://db/booster';
+
+mongoose.connect(url,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true,

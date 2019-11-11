@@ -1,0 +1,21 @@
+# build stage
+FROM node:13.1.0-alpine as build
+
+WORKDIR /build
+
+RUN apk --no-cache add python make g++
+
+COPY package*.json .
+
+RUN yarn install
+
+# run stage
+FROM node:13.1.0-alpine
+
+WORKDIR /usr/src/app
+
+COPY --from=build /build/node_modules node_modules
+
+COPY . .
+
+CMD ["yarn", "prod"]
