@@ -6,7 +6,7 @@ const router = express.Router();
 
 // List all collaborators
 // TODO: Pagination
-router.get('/collaborators', async (req, res) => {
+router.get('', async (req, res) => {
   try {
     let collaborators = await Collaborator.find();
     return res.send(collaborators);
@@ -17,4 +17,16 @@ router.get('/collaborators', async (req, res) => {
   }
 });
 
-module.exports = app => app.use('/api', router);
+// Register a new collaborator
+router.post('', async (req, res) => {
+  try {
+    const collab = await Collaborator.create(req.body);
+    return res.send({ collab })
+  } catch (err) {
+    return res.status(400).send({
+      error: 'Registration failed'
+    })
+  }
+});
+
+module.exports = app => app.use('/collaborators', router);
