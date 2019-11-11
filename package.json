@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "dev": "yarn lint && yarn nodemon src/index.js",
-    "lint": "yarn eslint src --ext .js"
+    "lint": "yarn eslint src --fix --ext .js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

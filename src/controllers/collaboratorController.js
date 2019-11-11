@@ -4,7 +4,7 @@ const Collaborator = require('../models/collaborator');
 
 const router = express.Router();
 
-// List all collaborators
+// Lists all collaborators
 // TODO: Pagination
 router.get('', async (req, res) => {
   try {
@@ -17,7 +17,7 @@ router.get('', async (req, res) => {
   }
 });
 
-// Register a new collaborator
+// Registers a new collaborator
 router.post('', async (req, res) => {
   try {
     const collab = await Collaborator.create(req.body);
@@ -29,6 +29,18 @@ router.post('', async (req, res) => {
       error: 'Registration failed'
     });
   }
+});
+
+// Deletes a collaborator
+router.delete('/:id', async (req, res) => {
+  let _id = req.params.id;
+  Collaborator.deleteOne({ _id }, err => {
+    if(!err) return;
+    res.status(400).send({
+      error: 'Delete request failed'
+    });
+  });
+  res.status(200).send();
 });
 
 module.exports = app => app.use('/collaborators', router);

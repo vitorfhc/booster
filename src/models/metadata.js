@@ -11,7 +11,7 @@ const MetaDataSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
   },
-});
+}, {_id: false});
 
 MetaDataSchema.pre('save', next => {
   let now = new Date();
