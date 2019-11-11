@@ -10,5 +10,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 require('./controllers/collaboratorController')(app);
 
-console.log('Listening...')
+console.log('Listening...');
 app.listen(3000);

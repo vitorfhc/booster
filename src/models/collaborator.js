@@ -1,7 +1,7 @@
-const mongoose = require('../database')
+const mongoose = require('../database');
 
-const SectorSchema = require('./sector')
-const MetaDataSchema = require('./metadata')
+const SectorSchema = require('./sector');
+const MetaDataSchema = require('./metadata');
 
 const CollaboratorSchema = new mongoose.Schema({
   name: {

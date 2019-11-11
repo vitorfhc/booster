@@ -14,10 +14,10 @@ const MetaDataSchema = new mongoose.Schema({
 });
 
 MetaDataSchema.pre('save', next => {
-  now = new Date();
+  let now = new Date();
   this.updated_at = now;
   if(!this.created_at) {
-    created_at = now;
+    this.created_at = now;
   }
   next();
 });
