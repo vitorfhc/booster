@@ -1,5 +1,7 @@
 const mongoose = require('../database')
 
+const SectorSchema = require('./Sector')
+
 const CollaboratorSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -17,6 +19,7 @@ const CollaboratorSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  sectors: [SectorSchema],
 });
 
 const Collaborator = mongoose.model('Collaborator', CollaboratorSchema);
