@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 // Registers a new collaborator
 router.post('', async (req, res) => {
   try {
-    collab.metadata = {};
+    req.body.metadata = {};
     const collab = await Collaborator.create(req.body);
     return res.send({ collab });
   } catch (err) {
