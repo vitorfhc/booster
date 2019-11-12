@@ -25,6 +25,8 @@ build:
     - docker push $IMAGE_NAME:latest
 
 tests:
+  only:
+    - master
   image: docker:stable
   stage: tests
   script:
