@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "yarn nodemon --exec 'yarn lint && node' src/index.js",
     "lint": "yarn eslint src --ext .js",
-    "prod": "yarn pm2 start src/index.js && tail -f /dev/null"
+    "prod": "yarn pm2 start src/index.js && tail -f /dev/null",
+    "test": "echo Run tests"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
