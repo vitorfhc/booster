@@ -5,11 +5,15 @@ services:
     image: registry.gitlab.com/vitorfhc/booster/booster
     ports:
       - 3000:3000
+    environment:
+      DB_HOST: localhost
 
   db:
     image: mongo:4.2.1
     volumes:
       - database-volume:/data/db
+    ports:
+      - 27017:27017
 
 volumes:
   database-volume:
