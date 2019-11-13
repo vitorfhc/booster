@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   annotations:
@@ -11,7 +11,7 @@ metadata:
   name: booster
   namespace: default
   resourceVersion: "145011"
-  selfLink: /apis/apps/v1/namespaces/default/deployments/booster
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/booster
   uid: 053e1fa6-054f-11ea-9d4c-42010a8000c3
 spec:
   progressDeadlineSeconds: 600
@@ -40,7 +40,7 @@ spec:
             configMapKeyRef:
               key: DB_HOST
               name: booster-config
-        image: registry.gitlab.com/vitorfhc/booster/booster:2ac4d51cff6d854fe93e6a90d5ba825a8938c53c
+        image: registry.gitlab.com/vitorfhc/booster/booster:$CI_COMMIT_SHORT_SHA
         imagePullPolicy: Always
         name: booster
         resources: {}

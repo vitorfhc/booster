@@ -8,7 +8,8 @@ services:
 
 stages:
   - build
-  - tests
+  #- tests
+  - deploy
 
 build:
   only:
@@ -20,8 +21,8 @@ build:
   image: docker:stable
   stage: build
   script:
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA -t $IMAGE_NAME:latest -f Dockerfile.prod .
-    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHORT_SHA -t $IMAGE_NAME:latest -f Dockerfile.prod .
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE_NAME:latest
 
 tests:
@@ -32,3 +33,17 @@ tests:
   script:
     - docker pull $IMAGE_NAME
     - docker run $IMAGE_NAME yarn test
+
+deploy:
+  only:
+    - master
+  image: 'gcloud-with-envsubst:latest'
+  stage: deploy
+  script:
+    - echo "$SERVICE_ACCOUNT_KEY" > key.json
+    - gcloud auth activate-service-account --key-file=key.json
+    - gcloud config set project $GCLOUD_PROJECT
+    - gcloud config set container/cluster $GCLOUD_CLUSTER
+    - gcloud config set compute/zone $GCLOUD_ZONE
+    - gcloud container clusters get-credentials $GCLOUD_CLUSTER --zone $GCLOUD_ZONE
+    - cat booster.yaml | envsubst | kubectl apply -f -
