@@ -8,7 +8,6 @@ services:
 
 stages:
   - build
-  #- tests
   - deploy
 
 build:
@@ -24,15 +23,6 @@ build:
     - docker build -t $IMAGE_NAME:$CI_COMMIT_SHORT_SHA -t $IMAGE_NAME:latest -f Dockerfile.prod .
     - docker push $IMAGE_NAME:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE_NAME:latest
-
-tests:
-  only:
-    - master
-  image: docker:stable
-  stage: tests
-  script:
-    - docker pull $IMAGE_NAME
-    - docker run $IMAGE_NAME yarn test
 
 deploy:
   only:
