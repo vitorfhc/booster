@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "6"
+  creationTimestamp: "2019-11-12T13:19:13Z"
+  generation: 13
+  labels:
+    app: booster
+    tier: backend
+  name: booster
+  namespace: default
+  resourceVersion: "145011"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/booster
+  uid: 053e1fa6-054f-11ea-9d4c-42010a8000c3
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: booster
+      tier: backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: booster
+        tier: backend
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DB_HOST
+              name: booster-config
+        image: registry.gitlab.com/vitorfhc/booster/booster:2ac4d51cff6d854fe93e6a90d5ba825a8938c53c
+        imagePullPolicy: Always
+        name: booster
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - image: mongo
+        imagePullPolicy: Always
+        name: mongo
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-11-12T20:00:36Z"
+    lastUpdateTime: "2019-11-12T20:00:36Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-11-12T13:19:13Z"
+    lastUpdateTime: "2019-11-12T22:21:18Z"
+    message: ReplicaSet "booster-55f9bcbfd5" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 13
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
