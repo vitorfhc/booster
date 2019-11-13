@@ -27,7 +27,7 @@ build:
 deploy:
   only:
     - master
-  image: 'gcloud-with-envsubst:latest'
+  image: 'vitorfhc/gcloud-envsubst'
   stage: deploy
   script:
     - echo "$SERVICE_ACCOUNT_KEY" > key.json
